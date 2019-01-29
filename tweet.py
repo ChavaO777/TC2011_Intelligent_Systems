@@ -6,6 +6,9 @@ class Tweet:
 
         self.text = text
         self.isBot = isBot
+        # See MeaningCloud's documentation for
+        # Sentiment Analysis for the definitions 
+        # of the five attributes below
         self.score_tag = ""
         self.agreement = ""
         self.subjectivity = ""
