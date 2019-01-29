@@ -3,6 +3,7 @@
 
 # Python script for the sentiment analysis extraction 
 
+import time
 import csv
 import tweet
 import json
@@ -25,6 +26,8 @@ tweetsList = []
 counter = 0
 # List of the IDs of tweets whose requests failed
 wrongRequestTweetIds = []
+
+requestIntervalSeconds = 3
 
 # Open the data set file
 with open(dataset_file, 'rb') as f:
@@ -68,6 +71,10 @@ with open(dataset_file, 'rb') as f:
             wrongRequestTweetIds.append(counter)
 
         counter += 1
+
+        print("Tweets analyzed so far: " + str(counter))
+        # Wait for a few seconds before making a new request
+        time.sleep(requestIntervalSeconds)
     
 print("\nTotal analyzed tweets = " + str(counter))
 
