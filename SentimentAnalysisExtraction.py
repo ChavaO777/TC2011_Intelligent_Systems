@@ -16,7 +16,7 @@ with open('.env.json') as f:
 # Required data for API calls
 license_key = data["meaningCloud_APIKey"]
 dataset_file_pathToFile = 'datasets'
-dataset_file_name = 'train_lite.csv'
+dataset_file_name = 'train.csv'
 dataset_file = dataset_file_pathToFile + '/' + dataset_file_name
 tweetLang = 'en'
 
