@@ -51,7 +51,6 @@ with open(dataset_file, 'rb') as f:
         text = t.text
         sentiment_response = meaningcloud.SentimentResponse(meaningcloud.SentimentRequest(license_key, lang=tweetLang, txt=text, txtf='plain').sendReq())
 
-
         if (sentiment_response.isSuccessful()):
             
             # Populate the remaining fields of this Tweet instance
