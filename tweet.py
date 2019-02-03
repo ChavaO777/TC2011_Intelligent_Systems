@@ -13,11 +13,11 @@ class Tweet:
         confidence=-1,
         irony="",
         # IndicoIO
-        joy=-1.0,
-        surprise=-1.0,
-        fear=-1.0,
-        sadness=-1.0,
-        anger=-1.0):
+        joy=-100.0,
+        surprise=-100.0,
+        fear=-100.0,
+        sadness=-100.0,
+        anger=-100.0):
 
         self.text = text
         self.isBot = isBot

@@ -11,8 +11,6 @@ class SentimentExtractor(FeatureExtractor):
 
         # The language of the tweets
         tweetLang = 'en'
-        # List of tweets
-        tweetsList = []
         # Tweet counter
         counter = 0
         # List of the IDs of tweets whose requests failed
@@ -55,7 +53,7 @@ class SentimentExtractor(FeatureExtractor):
                     t.subjectivity = sentiment_response.getSubjectivity()
                     t.confidence = sentiment_response.getGlobalConfidence()
                     t.irony = sentiment_response.getIrony()
-                    tweetsList.append(t)
+                    self.tweetList.append(t)
 
                 else:
                     # Let's see why the request failed
