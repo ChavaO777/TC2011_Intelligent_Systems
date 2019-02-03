@@ -1,3 +1,6 @@
+# @author Salvador Orozco Villalever - A07104218
+# @version 02/02/2019
+
 import time
 from FeatureExtractor import FeatureExtractor
 from Tweet import Tweet

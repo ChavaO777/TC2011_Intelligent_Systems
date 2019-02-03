@@ -1,3 +1,6 @@
+# @author Salvador Orozco Villalever - A07104218
+# @version 02/02/2019
+
 import indicoio
 import time
 from FeatureExtractor import FeatureExtractor
@@ -78,5 +81,7 @@ class EmotionExtractor(FeatureExtractor):
                 # Wait for a few seconds before making a new request
                 time.sleep(self.requestIntervalSeconds)
 
+    # Method for setting the API key following Indico's
+    # specification
     def setAPIKey(self):
         indicoio.config.api_key = self.apiKey

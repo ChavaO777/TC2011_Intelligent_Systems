@@ -1,4 +1,9 @@
+# @author Salvador Orozco Villalever - A07104218
+# @version 02/02/2019
+
 import json
+
+# Class representing a tweet according to the features we've extracted so far.
 
 class Tweet:
 
@@ -41,10 +46,14 @@ class Tweet:
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):
+        
         return json.dumps(self, default=lambda o: o.__dict__)
 
+    # Method that gets the appropriate CSV header according
+    # to the class' attributes
     @staticmethod
     def getCSVHeader():
+
         # Create a dummy tweet
         t = Tweet("", 1)
         # Get the JSON string of that tweet
@@ -55,8 +64,5 @@ class Tweet:
         jsonObjKeys = jsonObj.keys()
         # Make a list of the keys
         keysList = list(jsonObjKeys)
-        return keysList
 
-# t1 = Tweet(0, "Example", 1)
-# print(t1.text)
-# print(t1.isBot)
+        return keysList

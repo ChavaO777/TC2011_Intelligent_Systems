@@ -1,7 +1,11 @@
+# @author Salvador Orozco Villalever - A07104218
+# @version 02/02/2019
+
 import json
 import csv
 from Tweet import Tweet
 
+# Class to handle CSV file operations for the tweet lists
 class CSVHandler:
 
     def __init__(self, csvFilePath, tweetList):
@@ -9,9 +13,10 @@ class CSVHandler:
         self.csvFilePath = csvFilePath
         self.tweetList = tweetList
 
+    # Method to write to a CSV file
     def writeTweetsToFile(self):
 
-        # Write to a new CSV file
+        # Write to the specified CSV file
         with open(self.csvFilePath, 'w', newline='') as csvfile:
             
             # Write the header of the CSV file
