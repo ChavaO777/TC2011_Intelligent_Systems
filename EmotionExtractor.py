@@ -13,7 +13,7 @@ class EmotionExtractor(FeatureExtractor):
         counter = 0
 
         # Open the data set file
-        with open(self.datasetFilePath, 'rb') as f:
+        with open(self.dataSetFilePath, 'rb') as f:
 
             # Flag to know whether the first line of the file (column names)
             # has been read

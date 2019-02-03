@@ -5,7 +5,7 @@ import meaningcloud
 
 # Class for performing the sentiment analysis extraction from MeaningCloud
 
-class SentimentExtractor(FeatureExtractor):
+class SentimentAnalysisExtractor(FeatureExtractor):
 
     def extractFeatures(self):
 
@@ -17,7 +17,7 @@ class SentimentExtractor(FeatureExtractor):
         wrongRequestTweetIds = []
 
         # Open the data set file
-        with open(self.datasetFilePath, 'rb') as f:
+        with open(self.dataSetFilePath, 'rb') as f:
 
             # Flag to know whether the first line of the file (column names)
             # has been read

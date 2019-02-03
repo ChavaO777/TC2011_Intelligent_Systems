@@ -3,12 +3,12 @@ from JSONHandler import JSONHandler
 
 class FeatureExtractor:
 
-    def __init__(self, apiKeyName, pathToApiKeyFile, datasetFilePath, requestIntervalSeconds, tweetList=[]):
+    def __init__(self, apiKeyName, pathToApiKeyFile, dataSetFilePath, requestIntervalSeconds, tweetList=[]):
 
         self.apiKeyName = apiKeyName
         self.pathToApiKeyFile = pathToApiKeyFile
         self.apiKey = self.readAPIKey()
-        self.datasetFilePath = datasetFilePath
+        self.dataSetFilePath = dataSetFilePath
         self.requestIntervalSeconds = requestIntervalSeconds
         self.tweetList = tweetList
 

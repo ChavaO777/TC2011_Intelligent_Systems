@@ -4,17 +4,17 @@
 # Python script for the sentiment analysis extraction 
 
 from CSVHandler import CSVHandler
-from SentimentExtractor import SentimentExtractor
+from SentimentAnalysisExtractor import SentimentAnalysisExtractor
 
 dataset_file_pathToFile = 'datasets'
 dataset_file_name = 'train.csv'
 dataset_file_path = dataset_file_pathToFile + '/' + dataset_file_name
 requestIntervalSeconds = 3
 
-sentimentExtractor = SentimentExtractor("meaningCloud_APIKey", ".env.json", dataset_file_path, requestIntervalSeconds)
-sentimentExtractor.extractFeatures()
+sentimentAnalysisExtractor = SentimentAnalysisExtractor("meaningCloud_APIKey", ".env.json", dataset_file_path, requestIntervalSeconds)
+sentimentAnalysisExtractor.extractFeatures()
 
 # Name of the file with the results
 resultsFile = dataset_file_pathToFile + '/' + 'RESULTS_' + dataset_file_name
-myCSVWriter = CSVHandler(resultsFile, sentimentExtractor.tweetList)
+myCSVWriter = CSVHandler(resultsFile, sentimentAnalysisExtractor.tweetList)
 myCSVWriter.writeTweetsToFile()
