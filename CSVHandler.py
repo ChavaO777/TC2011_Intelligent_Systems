@@ -4,15 +4,15 @@ from Tweet import Tweet
 
 class CSVHandler:
 
-    def __init__(self, fileName, tweetList):
+    def __init__(self, csvFilePath, tweetList):
 
-        self.fileName = fileName
+        self.csvFilePath = csvFilePath
         self.tweetList = tweetList
 
     def writeTweetsToFile(self):
 
         # Write to a new CSV file
-        with open(self.fileName, 'w', newline='') as csvfile:
+        with open(self.csvFilePath, 'w', newline='') as csvfile:
             
             # Write the header of the CSV file
             fieldnames = Tweet.getCSVHeader()
