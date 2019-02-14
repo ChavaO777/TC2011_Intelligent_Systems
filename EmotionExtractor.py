@@ -37,22 +37,19 @@ class EmotionExtractor(FeatureExtractor):
                 # already contains the following features 
                 # per tweet:
                 # 
-                # - text,
-                # - isBot,
-                # - score_tag
-                # - agreement
-                # - subjectivity
-                # - confidence
-                # - irony
+                # - text
                 # 
+
+                text = row[0][:-1]
+
                 t = Tweet(
-                    row[0],
-                    int(row[1]),
-                    row[2],
-                    row[3],
-                    row[4],
-                    row[5],
-                    row[6]
+                    text
+                    # ,int(row[1])
+                    # ,row[2]
+                    # ,row[3]
+                    # ,row[4]
+                    # ,row[5]
+                    # ,row[6]
                     )
 
                 text = t.text

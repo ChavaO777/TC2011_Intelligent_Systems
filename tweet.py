@@ -10,13 +10,13 @@ class Tweet:
     def __init__(
         self,
         text,
-        isBot,
+        isBot=-1,
         # MeaningCloud
-        score_tag="",
-        agreement="",
-        subjectivity="",
-        confidence=-1,
-        irony="",
+        # score_tag="",
+        # agreement="",
+        # subjectivity="",
+        # confidence=-1,
+        # irony="",
         # IndicoIO
         joy=-100.0,
         surprise=-100.0,
@@ -31,11 +31,11 @@ class Tweet:
         # See MeaningCloud's documentation for
         # Sentiment Analysis for the definitions 
         # of the five attributes below
-        self.score_tag = score_tag
-        self.agreement = agreement
-        self.subjectivity = subjectivity
-        self.confidence = confidence
-        self.irony = irony
+        # self.score_tag = score_tag
+        # self.agreement = agreement
+        # self.subjectivity = subjectivity
+        # self.confidence = confidence
+        # self.irony = irony
 
         # Indico - EmotionExtraction
         self.joy = joy
