@@ -1,4 +1,4 @@
-text,isBot,score_tag,agreement,subjectivity,confidence,irony,joy,surprise,fear,sadness,anger
+text,class,score_tag,agreement,subjectivity,confidence,irony,joy,surprise,fear,sadness,anger
 i remember in 7th grade we used to fight the 8th graders at recess . dem were the days man lol,1,P,AGREEMENT,SUBJECTIVE,100,"NONIRONIC",0.7035837173461914,0.1284189075231552,0.11391761898994446,0.04591129720211029,0.008168450556695461
 You cannot perform in a manner inconsistent with the way you see yourself. - Zig Ziglar,1,P,AGREEMENT,OBJECTIVE,92,"NONIRONIC",0.5444351434707642,0.19053326547145844,0.14571726322174072,0.11255890876054764,0.006755413953214884
 @bpadthai Follow me!,1,NONE,AGREEMENT,OBJECTIVE,100,"NONIRONIC",0.3285781741142273,0.18077895045280457,0.17407891154289246,0.1611349731683731,0.15542897582054138
