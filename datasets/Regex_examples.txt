@@ -1,0 +1,3 @@
+To match tweets' texts (it does not cover all tweets because of strange characters, e.g. those in from non-Latin alphabets):
+
+^[–“�^&~ß=ñ\-()°$@a-zA-Z0-9 \.\!_:///*#;)?-`]*,
