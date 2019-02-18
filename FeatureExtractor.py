@@ -7,14 +7,17 @@ from JSONHandler import JSONHandler
 class FeatureExtractor:
 
     # Constructor of the class
-    def __init__(self, apiKeyName, pathToApiKeyFile, dataSetFilePath, requestIntervalSeconds, tweetList=[]):
+    def __init__(self, dataSetFilePath, requestIntervalSeconds, apiKeyName=None, pathToApiKeyFile=None, tweetList=[]):
 
         # Name of the API key in the secret JSON file
         self.apiKeyName = apiKeyName
         # Path to the secret JSON file
         self.pathToApiKeyFile = pathToApiKeyFile
+        
         # API key stored in the secret JSON file
-        self.apiKey = self.readAPIKey()
+        if self.apiKeyName != None and self.pathToApiKeyFile != None:
+            self.apiKey = self.readAPIKey()
+
         # Path to the data set file
         self.dataSetFilePath = dataSetFilePath
         # Interval between requests in seconds

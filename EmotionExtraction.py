@@ -14,7 +14,7 @@ dataset_file_path = dataset_file_pathToFile + '/' + dataset_file_name
 requestIntervalSeconds = 0.1
 
 # Instantiate an EmotionExtractor
-emotionExtractor = EmotionExtractor("indico_APIKey", ".env.json", dataset_file_path, requestIntervalSeconds)
+emotionExtractor = EmotionExtractor(dataset_file_path, requestIntervalSeconds, "indico_APIKey", ".env.json")
 emotionExtractor.setAPIKey()
 emotionExtractor.extractFeatures()
 

@@ -15,7 +15,7 @@ dataset_file_path = dataset_file_pathToFile + '/' + dataset_file_name
 requestIntervalSeconds = 3
 
 # Instantiate a SentimentAnalysisExtractor
-sentimentAnalysisExtractor = SentimentAnalysisExtractor("meaningCloud_APIKey", ".env.json", dataset_file_path, requestIntervalSeconds)
+sentimentAnalysisExtractor = SentimentAnalysisExtractor(dataset_file_path, requestIntervalSeconds, "meaningCloud_APIKey", ".env.json")
 sentimentAnalysisExtractor.extractFeatures()
 
 # Write the results to a new CSV file.

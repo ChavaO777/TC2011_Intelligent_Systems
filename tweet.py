@@ -8,21 +8,22 @@ import json
 class Tweet:
 
     def __init__(
-        self,
-        text,
-        isBot=-1,
+        self
+        ,text
+        ,isBot=-1
         # MeaningCloud
-        # score_tag="",
-        # agreement="",
-        # subjectivity="",
-        # confidence=-1,
-        # irony="",
-        # IndicoIO
-        joy=-100.0,
-        surprise=-100.0,
-        fear=-100.0,
-        sadness=-100.0,
-        anger=-100.0):
+        # ,score_tag=""
+        # ,agreement=""
+        # ,subjectivity=""
+        # ,confidence=-1
+        # ,irony=""
+        # ,IndicoIO
+        ,joy=-100.0
+        ,surprise=-100.0
+        ,fear=-100.0
+        ,sadness=-100.0
+        ,anger=-100.0
+        ,isQuote=-1):
 
         self.text = text
         self.isBot = isBot
@@ -43,6 +44,7 @@ class Tweet:
         self.fear = fear
         self.sadness = sadness
         self.anger = anger
+        self.isQuote = isQuote
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):
