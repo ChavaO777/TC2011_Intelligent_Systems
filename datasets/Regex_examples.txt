@@ -5,3 +5,8 @@ To match tweets' texts (it does not cover all tweets because of strange characte
 To match floating-point numbers:
 
 [-+]?[0-9]*\.?[0-9]*
+
+To clean KNN run results (e.g. "1,1:?,1:bot,,1"):
+
+^[0-9]+,[0-9]:\?,[0-9]:
+,,[-+]?[0-9]*\.?[0-9]*$
