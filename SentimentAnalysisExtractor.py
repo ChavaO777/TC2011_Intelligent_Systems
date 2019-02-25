@@ -43,8 +43,22 @@ class SentimentAnalysisExtractor(FeatureExtractor):
                 # 
                 # - text,
                 # - isBot
+                # - joy
+                # - surprise
+                # - fear
+                # - sadness
+                # - anger
                 # 
-                t = Tweet(row[0], int(row[1]))
+                t = Tweet(
+                    text = row[0]
+                    , isBot = int(row[1])
+                    , joy = float(row[2])
+                    , surprise = float(row[3])
+                    , fear = float(row[4])
+                    , sadness = float(row[5])
+                    , anger = float(row[6])
+                    )
+
                 text = t.text
                 sentiment_response = meaningcloud.SentimentResponse(meaningcloud.SentimentRequest(self.apiKey, lang=tweetLang, txt=text, txtf='plain').sendReq())
 

@@ -12,18 +12,20 @@ class Tweet:
         ,text
         ,isBot=-1
         # MeaningCloud
-        # ,score_tag=""
-        # ,agreement=""
-        # ,subjectivity=""
-        # ,confidence=-1
-        # ,irony=""
+        ,score_tag=""
+        ,agreement=""
+        ,subjectivity=""
+        ,confidence=-1
+        ,irony=""
         # ,IndicoIO
         ,joy=-100.0
         ,surprise=-100.0
         ,fear=-100.0
         ,sadness=-100.0
         ,anger=-100.0
-        ,isQuote=-1):
+        # Extra features
+        # ,isQuote=-1
+        ):
 
         self.text = text
         self.isBot = isBot
@@ -32,11 +34,11 @@ class Tweet:
         # See MeaningCloud's documentation for
         # Sentiment Analysis for the definitions 
         # of the five attributes below
-        # self.score_tag = score_tag
-        # self.agreement = agreement
-        # self.subjectivity = subjectivity
-        # self.confidence = confidence
-        # self.irony = irony
+        self.score_tag = score_tag
+        self.agreement = agreement
+        self.subjectivity = subjectivity
+        self.confidence = confidence
+        self.irony = irony
 
         # Indico - EmotionExtraction
         self.joy = joy
@@ -44,7 +46,9 @@ class Tweet:
         self.fear = fear
         self.sadness = sadness
         self.anger = anger
-        self.isQuote = isQuote
+
+        # Extra features
+        # self.isQuote = isQuote
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):
