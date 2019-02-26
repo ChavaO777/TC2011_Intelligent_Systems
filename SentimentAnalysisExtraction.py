@@ -8,11 +8,11 @@ from SentimentAnalysisExtractor import SentimentAnalysisExtractor
 
 # Set the data set path file
 dataset_file_pathToFile = 'datasets/with_extra_features'
-dataset_file_name = 'Emotion_train_LITE.csv'
+dataset_file_name = 'Emotion_test.csv'
 dataset_file_path = dataset_file_pathToFile + '/' + dataset_file_name
 
 # Set the request's interval
-requestIntervalSeconds = 0.1
+requestIntervalSeconds = 0.5
 
 # Instantiate a SentimentAnalysisExtractor
 sentimentAnalysisExtractor = SentimentAnalysisExtractor(dataset_file_path, requestIntervalSeconds, "meaningCloud_APIKey", ".env.json")
