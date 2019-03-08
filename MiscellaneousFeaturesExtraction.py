@@ -19,6 +19,6 @@ miscellaneousFeaturesExtractor = MiscellaneousFeaturesExtractor(dataset_file_pat
 miscellaneousFeaturesExtractor.extractFeatures()
 
 # Write the results to a new CSV file.
-resultsFile = dataset_file_pathToFile + '/' + 'RESULTS_URL_COUNT_' + dataset_file_name
+resultsFile = dataset_file_pathToFile + '/' + 'PLUS_URL_COUNT_' + dataset_file_name
 myCSVWriter = CSVHandler(resultsFile, miscellaneousFeaturesExtractor.tweetList)
 myCSVWriter.writeTweetsToFile()

@@ -90,11 +90,14 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
     def urlCountInTweet(self, tweet):
 
         # The following regular expressions helps count the amount of URLs in a given tweet
-        # 
-        # Examples of URLs
+        # including abbreviations or cases in which the URL was truncated.
+
+        # Examples of URLs or truncated URLs
         # http://t.co/umDSXYAWm6 
         # http://t.co
-        urlStringRegex = "https?:\/\/[a-zA-Z]+.[a-zA-Z]+[\/]?[0-9a-zA-Z]+]?"
+        # http://t
+        # http://
+        urlStringRegex = "https?:\/\/"
         return self.computeRegexMatchesInText(text=tweet, regexPattern=urlStringRegex)
 
     def tweetIsQuote(self, tweet):
