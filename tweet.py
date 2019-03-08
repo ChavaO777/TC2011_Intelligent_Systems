@@ -25,6 +25,7 @@ class Tweet:
         ,anger=-100.0
         # Extra features
         # ,isQuote=-1
+        ,urlCount=-1
         ):
 
         self.text = text
@@ -49,6 +50,7 @@ class Tweet:
 
         # Extra features
         # self.isQuote = isQuote
+        self.urlCount = urlCount
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):

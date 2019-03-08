@@ -37,17 +37,28 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                 # per tweet:
                 # 
                 # - text
-                text = row[0]
+
+                tweetText = row[0]
 
                 t = Tweet(
-                    text
-                    ,int(row[1])
-                    ,row[2]
-                    ,row[3]
-                    ,row[4]
-                    ,row[5]
-                    ,float(row[6])
-                    ,self.tweetIsQuote(text)
+                    # Text
+                    tweetText
+                    # Class
+                    ,isBot=int(row[1])
+                    # MeaningCloud's sentiment analysis features
+                    ,score_tag=row[2]
+                    ,agreement=row[3]
+                    ,subjectivity=row[4]
+                    ,confidence=row[5]
+                    ,irony=row[6]
+                    # Indico's emotion features
+                    ,joy=float(row[7])
+                    ,surprise=float(row[8])
+                    ,fear=float(row[9])
+                    ,sadness=float(row[10])
+                    ,anger=float(row[11])
+                    # ,self.tweetIsQuote(tweetText)
+                    ,urlCount=self.urlCountInTweet(tweetText)
                     )
 
                 self.tweetList.append(t)
@@ -57,17 +68,10 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                 # Wait for a few seconds before making a new request
                 time.sleep(self.requestIntervalSeconds)
 
-    def tweetIsQuote(self, tweet):
+    def stringMatchesRegex(self, text, regexPattern):
 
-        # The following regular expression helps identify tweets that are quotes
-        # 
-        # E.g.
-        # 1. @AndyChaney_ Imagination is more important than knowledge. - Albert Einstein
-        # 2. For success attitude is equally as important as ability. - Harry F. Banks
-        stringWithSpecialCharactersRegex = "[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7Ea-zA-Z\sä”0-9…ß]+"
-        quoteRegex = stringWithSpecialCharactersRegex + " - " + stringWithSpecialCharactersRegex
-        pattern = re.compile(quoteRegex)
-        matchResults = pattern.match(tweet)
+        pattern = re.compile(regexPattern)
+        matchResults = pattern.match(text)
 
         try:
             if matchResults.string != None:
@@ -77,6 +81,33 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
 
         except:
             return 0
+
+    def computeRegexMatchesInText(self, text, regexPattern):
+
+        matches = re.findall(regexPattern, text)
+        return len(matches)
+
+    def urlCountInTweet(self, tweet):
+
+        # The following regular expressions helps count the amount of URLs in a given tweet
+        # 
+        # Examples of URLs
+        # http://t.co/umDSXYAWm6 
+        # http://t.co
+        urlStringRegex = "https?:\/\/[a-zA-Z]+.[a-zA-Z]+[\/]?[0-9a-zA-Z]+]?"
+        return self.computeRegexMatchesInText(text=tweet, regexPattern=urlStringRegex)
+
+    def tweetIsQuote(self, tweet):
+
+        # The following regular expression helps identify tweets that are quotes
+        # 
+        # E.g.
+        # 1. @AndyChaney_ Imagination is more important than knowledge. - Albert Einstein
+        # 2. For success attitude is equally as important as ability. - Harry F. Banks
+        strRegexPattern = "[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7Ea-zA-Z\sä”0-9…ß]+"
+        quoteRegex = strRegexPattern + " - " + strRegexPattern
+        
+        return self.stringMatchesRegex(tweet, quoteRegex)
 
 
         
