@@ -58,7 +58,8 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,sadness=float(row[10])
                     ,anger=float(row[11])
                     # ,self.tweetIsQuote(tweetText)
-                    ,urlCount=self.urlCountInTweet(tweetText)
+                    ,urlsCount=self.computeUrlsCountInTweet(tweetText)
+                    ,mentionsCount=self.computeMentionsCountInTweet(tweetText)
                     )
 
                 self.tweetList.append(t)
@@ -87,7 +88,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
         matches = re.findall(regexPattern, text)
         return len(matches)
 
-    def urlCountInTweet(self, tweet):
+    def computeUrlsCountInTweet(self, tweet):
 
         # The following regular expressions helps count the amount of URLs in a given tweet
         # including abbreviations or cases in which the URL was truncated.
@@ -99,6 +100,21 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
         # http://
         urlStringRegex = "https?:\/\/"
         return self.computeRegexMatchesInText(text=tweet, regexPattern=urlStringRegex)
+
+    def computeMentionsCountInTweet(self, tweet):
+
+        # The following regular expressions helps count the amount of mentions 
+        # in a given tweet. Twitter IDs may contain both lower and uppercase letters,
+        # underscores and numbers.
+        # 
+        # Examples of mentions
+        # @username
+        # @Username
+        # @user_name
+        # @_username
+        # @_username_
+        mentionStringRegex = "@[a-zA-Z0-9_]+"
+        return self.computeRegexMatchesInText(text=tweet, regexPattern=mentionStringRegex)
 
     def tweetIsQuote(self, tweet):
 

@@ -11,21 +11,25 @@ class Tweet:
         self
         ,text
         ,isBot=-1
+
         # MeaningCloud
         ,score_tag=""
         ,agreement=""
         ,subjectivity=""
         ,confidence=-1
         ,irony=""
+
         # ,IndicoIO
         ,joy=-100.0
         ,surprise=-100.0
         ,fear=-100.0
         ,sadness=-100.0
         ,anger=-100.0
+
         # Extra features
         # ,isQuote=-1
-        ,urlCount=-1
+        ,urlsCount=-1
+        ,mentionsCount=-1
         ):
 
         self.text = text
@@ -50,7 +54,8 @@ class Tweet:
 
         # Extra features
         # self.isQuote = isQuote
-        self.urlCount = urlCount
+        self.urlsCount = urlsCount
+        self.mentionsCount = mentionsCount
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):

@@ -15,7 +15,7 @@ Attributes:   12
               fear
               sadness
               anger
-              urlCount
+              urlsCount
 Test mode:    user supplied test set:  size unknown (reading incrementally)
 
 === Classifier model (full training set) ===
@@ -29,9 +29,9 @@ AdaBoostM1: No boosting possible, one classifier used!
 FURIA rules:
 ===========
 
-(urlCount in [-inf, -inf, 0, 1]) => class=bot (CF = 1.0)
+(urlsCount in [-inf, -inf, 0, 1]) => class=bot (CF = 1.0)
 (sadness in [0.105874, 0.107614, inf, inf]) and (sadness in [-inf, -inf, 0.112722, 0.11368]) and (anger in [0.01588, 0.01912, inf, inf]) => class=bot (CF = 1.0)
-(urlCount in [0, 1, inf, inf]) => class=human (CF = 0.98)
+(urlsCount in [0, 1, inf, inf]) => class=human (CF = 0.98)
 
 Number of Rules : 3
 

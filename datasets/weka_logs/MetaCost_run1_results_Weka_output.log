@@ -15,7 +15,7 @@ Attributes:   12
               fear
               sadness
               anger
-              urlCount
+              urlsCount
 Test mode:    user supplied test set:  size unknown (reading incrementally)
 
 === Classifier model (full training set) ===
