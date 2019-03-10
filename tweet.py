@@ -27,9 +27,12 @@ class Tweet:
         ,anger=-100.0
 
         # Extra features
-        # ,isQuote=-1
         ,urlsCount=-1
         ,mentionsCount=-1
+        # ,isRetweet
+        # ,wordsCount
+        # ,hashtagsCount
+        # ,isFamousQuote=-1
         ):
 
         self.text = text
@@ -53,7 +56,6 @@ class Tweet:
         self.anger = anger
 
         # Extra features
-        # self.isQuote = isQuote
         self.urlsCount = urlsCount
         self.mentionsCount = mentionsCount
 
