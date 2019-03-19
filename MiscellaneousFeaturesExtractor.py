@@ -60,6 +60,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     # ,self.tweetIsQuote(tweetText)
                     ,urlsCount=self.computeUrlsCountInTweet(tweetText)
                     ,mentionsCount=self.computeMentionsCountInTweet(tweetText)
+                    ,isRetweet=self.isRetweet(tweetText)
                     )
 
                 self.tweetList.append(t)
@@ -127,6 +128,17 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
         quoteRegex = strRegexPattern + " - " + strRegexPattern
         
         return self.stringMatchesRegex(tweet, quoteRegex)
+
+    def isRetweet(self, tweet):
+
+        # The following regular expression helps identify tweets that are retweets
+        # 
+        # E.g.
+        # 1. RT @chazzpalminteri: To all my students out there--keep strong and shine the white light.
+        # 2. RT @BeingSalmanKhan: http://t.co/iYEkVeRnlm
+        retweetRegexPattern = "^RT.*"
+        
+        return self.stringMatchesRegex(tweet, retweetRegexPattern)
 
 
         
