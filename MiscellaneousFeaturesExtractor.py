@@ -61,6 +61,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,urlsCount=self.computeUrlsCountInTweet(tweetText)
                     ,mentionsCount=self.computeMentionsCountInTweet(tweetText)
                     ,isRetweet=self.isRetweet(tweetText)
+                    ,wordsCount=self.computeWordCount(tweetText)
                     )
 
                 self.tweetList.append(t)
@@ -140,5 +141,8 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
         
         return self.stringMatchesRegex(tweet, retweetRegexPattern)
 
+    # Method that computes the amount of words of a tweet, splitting them by
+    # whitespace.
+    def computeWordCount(self, tweet):
 
-        
+        return len(tweet.split())

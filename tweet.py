@@ -30,7 +30,7 @@ class Tweet:
         ,urlsCount=-1
         ,mentionsCount=-1
         ,isRetweet=-1
-        # ,wordsCount
+        ,wordsCount=-1
         # ,hashtagsCount
         # ,isFamousQuote=-1
         ):
@@ -59,6 +59,7 @@ class Tweet:
         self.urlsCount = urlsCount
         self.mentionsCount = mentionsCount
         self.isRetweet = isRetweet
+        self.wordsCount = wordsCount
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):
