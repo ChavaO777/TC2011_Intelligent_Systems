@@ -8,7 +8,7 @@ from MiscellaneousFeaturesExtractor import MiscellaneousFeaturesExtractor
 
 # Set the data set path file
 dataset_file_pathToFile = 'datasets/with_extra_features'
-dataset_file_name = 'SentimentAnalysis_Emotion_URLsCount_MentionsCount_IsRetweet_WordsCount_train.csv'
+dataset_file_name = 'SentimentAnalysis_Emotion_URLsCount_MentionsCount_IsRetweet_WordsCount_test.csv'
 dataset_file_path = dataset_file_pathToFile + '/' + dataset_file_name
 
 # Set the request's interval
