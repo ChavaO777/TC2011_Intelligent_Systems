@@ -61,7 +61,8 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,urlsCount=self.computeUrlsCountInTweet(tweetText)
                     ,mentionsCount=self.computeMentionsCountInTweet(tweetText)
                     ,isRetweet=self.isRetweet(tweetText)
-                    ,wordsCount=self.computeWordCount(tweetText)
+                    ,wordsCount=self.computeWordsCount(tweetText)
+                    ,hashtagsCount=self.computeHashstagsCount(tweetText)
                     )
 
                 self.tweetList.append(t)
@@ -143,6 +144,25 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
 
     # Method that computes the amount of words of a tweet, splitting them by
     # whitespace.
-    def computeWordCount(self, tweet):
+    def computeWordsCount(self, tweet):
 
         return len(tweet.split())
+
+    # Method that determines whether a word is a hashtag
+    def isHashtag(self, word):
+
+        return word.startswith('#')
+
+    # Method that computes the amount of hashtags in a tweet
+    def computeHashstagsCount(self, tweet):
+
+        tweetWords = tweet.split()
+
+        hashtagsCount = 0
+
+        for i in range(len(tweetWords)):
+
+            if self.isHashtag(tweetWords[i]):
+                hashtagsCount += 1
+
+        return hashtagsCount

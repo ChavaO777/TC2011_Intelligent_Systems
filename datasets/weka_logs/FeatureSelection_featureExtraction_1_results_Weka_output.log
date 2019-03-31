@@ -1,0 +1,42 @@
+=== Run information ===
+
+Evaluator:    weka.attributeSelection.CfsSubsetEval -P 1 -E 1
+Search:       weka.attributeSelection.GreedyStepwise -T -1.7976931348623157E308 -N -1 -num-slots 1
+Relation:     HW8_TestingFeatureSelectionMethods_train
+Instances:    3000
+Attributes:   15
+              class
+              score_tag
+              agreement
+              subjectivity
+              confidence
+              irony
+              joy
+              surprise
+              fear
+              sadness
+              anger
+              urlsCount
+              mentionsCount
+              isRetweet
+              wordsCount
+Evaluation mode:    evaluate on all training data
+
+
+
+=== Attribute Selection on all input data ===
+
+Search Method:
+	Greedy Stepwise (forwards).
+	Start set: no attributes
+	Merit of best subset found:    0.115
+
+Attribute Subset Evaluator (supervised, Class (nominal): 1 class):
+	CFS Subset Evaluator
+	Including locally predictive attributes
+
+Selected attributes: 12,14,15 : 3
+                     urlsCount
+                     isRetweet
+                     wordsCount
+

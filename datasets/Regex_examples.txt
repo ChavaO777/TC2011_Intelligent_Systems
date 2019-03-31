@@ -9,12 +9,16 @@ To match floating-point numbers:
 To clean KNN run results (e.g. "1,1:?,1:bot,,1"):
 
 ,,[-+]?[0-9]*\.?[0-9]*$
-^[0-9]+,[0-9]:\?,[0-9]:
 
+To delete the fragments for bots:
+1:\?,1:bot
+
+To delete the middle fragments for humans:
+1:\?,2:human
 
 To match everything except for the tweet's text at the beginning of each row:
 
-[0-1],[a-zA-Z]+[+]?,[a-zA-Z]+,[a-zA-Z]+,[0-9]+,[a-zA-Z]+,[-+]?[0-9]*\.?[0-9]*,[-+]?[0-9]*\.?[0-9]*,[-+]?[0-9]*\.?[0-9]*,[-+]?[0-9]*\.?[0-9e-]*,[-+]?[0-9]*\.?[0-9e-]*,[0-9]+,[0-9]+,[0-1]$
+[0-1],[a-zA-Z]+[+]?,[a-zA-Z]+,[a-zA-Z]+,[0-9]+,[a-zA-Z]+,[-+]?[0-9]*\.?[0-9]*,[-+]?[0-9]*\.?[0-9]*,[-+]?[0-9]*\.?[0-9]*,[-+]?[0-9]*\.?[0-9e-]*,[-+]?[0-9]*\.?[0-9e-]*,[0-9]+,[0-9]+,[0-1],[0-9]+$
 
 URLs:
 

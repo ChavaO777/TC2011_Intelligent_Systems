@@ -1,0 +1,44 @@
+=== Run information ===
+
+Evaluator:    weka.attributeSelection.CorrelationAttributeEval 
+Search:       weka.attributeSelection.Ranker -T -1.7976931348623157E308 -N 7
+Relation:     HW8_TestingFeatureSelectionMethods_train
+Instances:    3000
+Attributes:   15
+              class
+              score_tag
+              agreement
+              subjectivity
+              confidence
+              irony
+              joy
+              surprise
+              fear
+              sadness
+              anger
+              urlsCount
+              mentionsCount
+              isRetweet
+              wordsCount
+Evaluation mode:    evaluate on all training data
+
+
+
+=== Attribute Selection on all input data ===
+
+Search Method:
+	Attribute ranking.
+
+Attribute Evaluator (supervised, Class (nominal): 1 class):
+	Correlation Ranking Filter
+Ranked attributes:
+ 0.3217  14 isRetweet
+ 0.2603  12 urlsCount
+ 0.2365  13 mentionsCount
+ 0.1122  11 anger
+ 0.0892   4 subjectivity
+ 0.0873  10 sadness
+ 0.0607   7 joy
+
+Selected attributes: 14,12,13,11,4,10,7 : 7
+
