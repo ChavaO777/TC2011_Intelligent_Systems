@@ -63,6 +63,11 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,isRetweet=self.isRetweet(tweetText)
                     ,wordsCount=self.computeWordsCount(tweetText)
                     ,hashtagsCount=self.computeHashstagsCount(tweetText)
+                    ,upperCaseLettersCount=self.computeUpperCaseLettersCount(tweetText)
+                    ,lowerCaseLettersCount=self.computeLowerCaseLettersCount(tweetText)
+                    ,upperCaseWordsCount=self.computeUpperCaseWordsCount(tweetText)
+                    ,nonAlphabeticalCharactersCount=self.computeNonAlphabeticalCharactersCount(tweetText)
+                    ,averageWordLength=self.computeAverageWordLength(tweetText)
                     )
 
                 self.tweetList.append(t)
@@ -166,3 +171,39 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                 hashtagsCount += 1
 
         return hashtagsCount
+
+    def computeUpperCaseLettersCount(self, tweet):
+
+        return len(re.findall(r'[A-Z]', tweet))
+
+    def computeLowerCaseLettersCount(self, tweet):
+
+        return len(re.findall(r'[a-z]', tweet))
+
+    def computeUpperCaseWordsCount(self, tweet):
+
+        tweetWords = tweet.split()
+        return sum(1 for word in tweetWords if word.isupper())
+
+    def computeNonAlphabeticalCharactersCount(self, tweet):
+
+        return self.computeTweetLength(tweet) - len(re.findall(r'[a-zA-Z]', tweet))
+
+    def computeTweetLength(self, tweet):
+
+        return len(tweet)
+
+    def computeAverageWordLength(self, tweet):
+
+        # Get the tweet's words
+        tweetWords = tweet.split()
+
+        # Delete the mentions
+        tweetWordsWithoutMentions = [x for x in tweetWords if not x.startswith("@")]
+
+        # Compute the average word length and return it
+        
+        if len(tweetWordsWithoutMentions) == 0:
+            return 0
+            
+        return sum(len(word) for word in tweetWordsWithoutMentions)/len(tweetWordsWithoutMentions)

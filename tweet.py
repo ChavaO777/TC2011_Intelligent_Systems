@@ -32,6 +32,11 @@ class Tweet:
         ,isRetweet=-1
         ,wordsCount=-1
         ,hashtagsCount=-1
+        ,upperCaseLettersCount=-1
+        ,lowerCaseLettersCount=-1
+        ,upperCaseWordsCount=-1
+        ,nonAlphabeticalCharactersCount=-1
+        ,averageWordLength=-1.0
         # ,isFamousQuote=-1
         ):
 
@@ -61,6 +66,11 @@ class Tweet:
         self.isRetweet = isRetweet
         self.wordsCount = wordsCount
         self.hashtagsCount = hashtagsCount
+        self.upperCaseLettersCount = upperCaseLettersCount
+        self.lowerCaseLettersCount = lowerCaseLettersCount
+        self.upperCaseWordsCount = upperCaseWordsCount
+        self.nonAlphabeticalCharactersCount = nonAlphabeticalCharactersCount
+        self.averageWordLength = averageWordLength
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):
