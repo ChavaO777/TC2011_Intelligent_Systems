@@ -37,7 +37,8 @@ class Tweet:
         ,upperCaseWordsCount=-1
         ,nonAlphabeticalCharactersCount=-1
         ,averageWordLength=-1.0
-        ,isFamousQuote=-1
+        ,isFamousQuote=False
+        # ,isFollowMeTweet=False
         ):
 
         self.text = text
