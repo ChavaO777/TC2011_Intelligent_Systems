@@ -5,6 +5,7 @@ import re
 import time
 from FeatureExtractor import FeatureExtractor
 from Tweet import Tweet
+import wikipedia
 
 # Class for extracting miscellaneous features
 class MiscellaneousFeaturesExtractor(FeatureExtractor):
@@ -68,6 +69,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,upperCaseWordsCount=self.computeUpperCaseWordsCount(tweetText)
                     ,nonAlphabeticalCharactersCount=self.computeNonAlphabeticalCharactersCount(tweetText)
                     ,averageWordLength=self.computeAverageWordLength(tweetText)
+                    ,isFamousQuote=self.isFamousQuote(tweetText)
                     )
 
                 self.tweetList.append(t)
@@ -123,18 +125,6 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
         # @_username_
         mentionStringRegex = "@[a-zA-Z0-9_]+"
         return self.computeRegexMatchesInText(text=tweet, regexPattern=mentionStringRegex)
-
-    def tweetIsQuote(self, tweet):
-
-        # The following regular expression helps identify tweets that are quotes
-        # 
-        # E.g.
-        # 1. @AndyChaney_ Imagination is more important than knowledge. - Albert Einstein
-        # 2. For success attitude is equally as important as ability. - Harry F. Banks
-        strRegexPattern = "[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7Ea-zA-Z\sä”0-9…ß]+"
-        quoteRegex = strRegexPattern + " - " + strRegexPattern
-        
-        return self.stringMatchesRegex(tweet, quoteRegex)
 
     def isRetweet(self, tweet):
 
@@ -207,3 +197,73 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
             return 0
             
         return sum(len(word) for word in tweetWordsWithoutMentions)/len(tweetWordsWithoutMentions)
+
+    def tweetHasQuoteStructure(self, tweet):
+
+        # The following regular expression helps identify tweets that are quotes
+        # 
+        # E.g.
+        # 1. @AndyChaney_ Imagination is more important than knowledge. - Albert Einstein
+        # 2. For success attitude is equally as important as ability. - Harry F. Banks
+        strRegexPattern = "[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7Ea-zA-Z\sä”0-9…ß]+"
+        quoteRegex = strRegexPattern + " - " + strRegexPattern
+        
+        return self.stringMatchesRegex(tweet, quoteRegex)
+
+    # Method that extracts the author of a given quote
+    # 
+    # E.g.
+    # If the quote is "The power of intuitive understanding will protect you from harm until the end of your days. - Lao Tsu",
+    # then the author is "Lao Tsu".
+    def extractQuoteAuthor(self, tweet):
+
+        quoteSections = tweet.split(" - ")
+        return quoteSections[1]
+
+    # Method that searches a given topic on Wikipedia
+    def performWikipediaSearch(self, searchTopic):
+
+        try:
+            topicWikipediaSearch = wikipedia.search(searchTopic)
+        except:
+            return False
+
+        return True
+
+    # Method that retrieves the page of a given topic on Wikipedia
+    def getWikipediaPage(self, searchTopic):
+
+        try:
+            topicWikipediaPage = wikipedia.page(searchTopic)
+            # print("topicWikipediaPage = " + str(topicWikipediaPage))
+        except:
+            return False
+
+        return True
+
+    # Method that determines whether a topic exists on Wikipedia.
+    # It checks whether a given page exists.
+    def topicExistsOnWikipedia(self, searchTopic):
+
+        return self.getWikipediaPage(searchTopic)
+        # or self.performWikipediaSearch(searchTopic)
+
+    def isFamousQuote(self, tweet):
+
+        # Check whether the tweet is a quote
+        tweetHasQuoteStructure = self.tweetHasQuoteStructure(tweet)
+
+        if not tweetHasQuoteStructure:
+            return False
+
+        # Get the quote's author
+        quoteAuthor = self.extractQuoteAuthor(tweet)
+        # print("QuoteAuthor = " + quoteAuthor)
+
+        # It may happen that there's no author, but it's
+        # a proverb
+        if "proverb" in quoteAuthor:
+            return True
+
+        return self.topicExistsOnWikipedia(quoteAuthor)
+    
