@@ -39,6 +39,7 @@ class Tweet:
         ,averageWordLength=-1.0
         ,isFamousQuote=False
         # ,isFollowMeTweet=False
+        # ,isCheckOutTweet=False
         ):
 
         self.text = text

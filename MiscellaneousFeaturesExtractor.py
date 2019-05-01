@@ -6,6 +6,7 @@ import time
 from FeatureExtractor import FeatureExtractor
 from Tweet import Tweet
 import wikipedia
+import requests
 
 # Class for extracting miscellaneous features
 class MiscellaneousFeaturesExtractor(FeatureExtractor):
@@ -217,8 +218,30 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
     # then the author is "Lao Tsu".
     def extractQuoteAuthor(self, tweet):
 
-        quoteSections = tweet.split(" - ")
-        return quoteSections[1]
+        # The author corresponds to the string after the last hyphen
+        quoteSections = tweet.split("-")
+        quoteAuthor = quoteSections[len(quoteSections) - 1]
+
+        print("1 quoteAuthor = " + quoteAuthor)
+
+        i = 0
+
+        while i < len(quoteAuthor) and not quoteAuthor[i].isalpha():
+            i += 1
+
+        j = len(quoteAuthor) - 1
+        while j >= i and not quoteAuthor[j].isalpha() and not quoteAuthor[j] == '.':
+            j -= 1
+
+        # Delete the last dot if there exists one. E.g. 'John Doe.'
+        if j == len(quoteAuthor) - 1 and quoteAuthor[j] == '.':
+            j -= 1
+
+        quoteAuthor = quoteAuthor[i:(j + 1)]
+
+        print("2 quoteAuthor = " + quoteAuthor)
+
+        return quoteAuthor
 
     # Method that searches a given topic on Wikipedia
     def performWikipediaSearch(self, searchTopic):
@@ -233,37 +256,179 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
     # Method that retrieves the page of a given topic on Wikipedia
     def getWikipediaPage(self, searchTopic):
 
+        topicWikipediaPage = None
+
         try:
             topicWikipediaPage = wikipedia.page(searchTopic)
             # print("topicWikipediaPage = " + str(topicWikipediaPage))
         except:
-            return False
+            return None
 
-        return True
+        return topicWikipediaPage
+
+    def computeLevenshteinDistance(self, s1, s2):
+
+        if len(s1) > len(s2):
+            s1, s2 = s2, s1
+
+        distances = range(len(s1) + 1)
+        for i2, c2 in enumerate(s2):
+            distances_ = [i2+1]
+            for i1, c1 in enumerate(s1):
+                if c1 == c2:
+                    distances_.append(distances[i1])
+                else:
+                    distances_.append(1 + min((distances[i1], distances[i1 + 1], distances_[-1])))
+            distances = distances_
+        return distances[-1]
 
     # Method that determines whether a topic exists on Wikipedia.
     # It checks whether a given page exists.
     def topicExistsOnWikipedia(self, searchTopic):
 
-        return self.getWikipediaPage(searchTopic)
+        wikipediaPage = self.getWikipediaPage(searchTopic)
+
+        # If the page wasn't found
+        if not wikipediaPage:
+            return False
+
+        if searchTopic in wikipediaPage.original_title or wikipediaPage.original_title in searchTopic:
+            return True
+
+        # If the page was found, make sure it actually is relevant.
+        # i.e. make sure the page is about the search topic by computing
+        # the Levenshtein Distance between the search topic and the 
+        # Wikipedia page title.
+        MAXIMUM_DESIRED_LEVENSHTEIN_DISTANCE = 5
+        levenshteinDistance = self.computeLevenshteinDistance(searchTopic, wikipediaPage.original_title)
+
+        print("levenshteinDistance between '" + searchTopic + "' and '" + wikipediaPage.original_title + "' = " + str(levenshteinDistance))
+        return levenshteinDistance < MAXIMUM_DESIRED_LEVENSHTEIN_DISTANCE
         # or self.performWikipediaSearch(searchTopic)
+
+    def nameExistsOnNameAPI(self, name):
+
+        nameWords = name.split(" ")
+
+        # Get the last name
+        lastName = nameWords[len(nameWords) - 1]
+
+        # Concatenate the rest of the full name assuming it is the first name
+        firstName = " ".join(nameWords[0:(len(nameWords) - 1)])
+
+        nameAPIKey = self.apiKey
+
+        # url of the NameAPI.org endpoint:
+        url = ("http://api.nameapi.org/rest/v5.3/parser/personnameparser?apiKey=" + nameAPIKey)
+
+        # Dict of data to be sent to NameAPI.org:
+        payload = {
+            "inputPerson": {
+                "type": "NaturalInputPerson",
+                "personName": {
+                    "nameFields": [
+                        {
+                            "string": firstName,
+                            "fieldType": "GIVENNAME"
+                        }, {
+                            "string": lastName,
+                            "fieldType": "SURNAME"
+                        }
+                    ]
+                },
+                "gender": "UNKNOWN"
+            }
+        }
+
+        foundOnNameAPI = False
+
+        # Proceed, only if no error:
+        try:
+            # Send request to NameAPI.org by doing the following:
+            # - make a POST HTTP request
+            # - encode the Python payload dict to JSON
+            # - pass the JSON to request body
+            # - set header's 'Content-Type' to 'application/json' instead of
+            #   default 'multipart/form-data'
+            resp = requests.post(url, json=payload)
+            resp.raise_for_status()
+            # Decode JSON response into a Python dict:
+            resp_dict = resp.json()
+            print(resp_dict)
+            responseConfidence = resp.json()['matches'][0]['confidence']
+
+            # foundOnNameAPI = True
+            foundOnNameAPI = responseConfidence > 0.75
+            
+        except requests.exceptions.HTTPError as e:
+            print("Bad HTTP status code:", e)
+        except requests.exceptions.RequestException as e:
+            print("Network error:", e)
+
+        return foundOnNameAPI
+
+    def authorExistsInQuotesAuthorList(self, quoteAuthor):
+
+        quoteAuthorsFileName = "datasets/with_extra_features/trainingDataSetQuoteAuthors.txt"
+
+        with open(quoteAuthorsFileName) as f:
+            quoteAuthorsFileContentList = f.readlines()
+
+        # Remove whitespace characters like '\n' at the end of each line
+        quoteAuthorsFileContentList = [x.strip() for x in quoteAuthorsFileContentList] 
+
+        return any(quoteAuthor.lower() in author.lower() for author in quoteAuthorsFileContentList)
+
+    # Method that determines whether a given string corresponds to a valid author.
+    # It first checks in the list of authors in the training dataset. If it doesn't
+    # find the author, it then proceeds to check on Wikipedia.
+    def isValidAuthor(self, quoteAuthor):
+
+        # Check if it's a proverb
+        if "proverb" in quoteAuthor.lower():
+            return True
+
+        if len(quoteAuthor.split(" ")) > 4:
+            return False
+
+        # Look for the author in the authors list
+        authorFoundInList = self.authorExistsInQuotesAuthorList(quoteAuthor) 
+
+        if authorFoundInList:
+            print("Author found in list!")
+            return True
+
+        else:
+            print("Author NOT found in list")
+
+        authorFoundOnWikipedia = self.topicExistsOnWikipedia(quoteAuthor)
+        authorFoundOnNameAPI = False
+
+        if authorFoundOnWikipedia:
+            print("Author '" + quoteAuthor + "' found on Wikipedia")
+
+        else:
+            print("Author '" + quoteAuthor + "' NOT found on Wikipedia")
+
+            authorFoundOnNameAPI = (self.nameExistsOnNameAPI(quoteAuthor)) or ("prince" in quoteAuthor.lower())
+
+            if authorFoundOnNameAPI:
+                print("Author '" + quoteAuthor + "' found on NameAPI or name contains the string 'prince'.")
+
+            else:
+                print("Author '" + quoteAuthor + "' NOT found on NameAPI")
+
+        
+        return authorFoundOnWikipedia or authorFoundOnNameAPI
 
     def isFamousQuote(self, tweet):
 
         # Check whether the tweet is a quote
-        tweetHasQuoteStructure = self.tweetHasQuoteStructure(tweet)
-
-        if not tweetHasQuoteStructure:
+        if not self.tweetHasQuoteStructure(tweet):
             return False
 
         # Get the quote's author
         quoteAuthor = self.extractQuoteAuthor(tweet)
-        # print("QuoteAuthor = " + quoteAuthor)
 
-        # It may happen that there's no author, but it's
-        # a proverb
-        if "proverb" in quoteAuthor:
-            return True
-
-        return self.topicExistsOnWikipedia(quoteAuthor)
+        return self.isValidAuthor(quoteAuthor)
     

@@ -8,14 +8,14 @@ from MiscellaneousFeaturesExtractor import MiscellaneousFeaturesExtractor
 
 # Set the data set path file
 dataset_file_pathToFile = 'datasets/with_extra_features'
-dataset_file_name = 'SentimentAnalysis_Emotion_MiscellaneousFeatures_test.csv'
+dataset_file_name = 'SentimentAnalysis_Emotion_MiscellaneousFeatures_train.csv'
 dataset_file_path = dataset_file_pathToFile + '/' + dataset_file_name
 
 # Set the request's interval
 requestIntervalSeconds = 0.0001
 
 # Instantiate a MiscellaneousFeaturesExtractor
-miscellaneousFeaturesExtractor = MiscellaneousFeaturesExtractor(dataset_file_path, requestIntervalSeconds, apiKeyName=None,pathToApiKeyFile=None)
+miscellaneousFeaturesExtractor = MiscellaneousFeaturesExtractor(dataset_file_path, requestIntervalSeconds, apiKeyName="namesAPI_APIKey",pathToApiKeyFile=".env.json")
 miscellaneousFeaturesExtractor.extractFeatures()
 
 # Write the results to a new CSV file.
