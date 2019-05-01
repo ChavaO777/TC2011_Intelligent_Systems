@@ -79,6 +79,8 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,isFamousQuote=row[22]
                     ,isFollowMeTweet=row[23]
                     ,isCheckOutTweet=row[24]
+                    ,maxAmountOfConsecutiveQuestionMarks = int(row[25])
+                    ,maxAmountOfConsecutivePeriods = int(row[26])
                     # New feature to extract
                     )
 
@@ -147,6 +149,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
         
         ans = self.stringMatchesRegex(tweet, retweetRegexPattern)
 
+        # Dumb, but used to get an actual string 'True' or 'False' instead of the digits 1 or 0.
         if ans:
             return True
         
@@ -459,3 +462,21 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
 
         return self.tweetContainsSubString(tweet, "check out")
 
+    def computeMaxAmountOfConsecutiveChars(self, tweet, char):
+
+        ans = 0
+        currString = char
+
+        while self.tweetContainsSubString(tweet, currString):
+            ans += 1
+            currString += char
+
+        return ans
+
+    def computeMaxAmountOfConsecutiveQuestionMarks(self, tweet):
+
+        return self.computeMaxAmountOfConsecutiveChars(tweet, '?')
+
+    def computeMaxAmountOfConsecutivePeriods(self, tweet):
+
+        return self.computeMaxAmountOfConsecutiveChars(tweet, '.')

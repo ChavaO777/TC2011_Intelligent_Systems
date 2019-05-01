@@ -40,6 +40,8 @@ class Tweet:
         ,isFamousQuote=False
         ,isFollowMeTweet=False
         ,isCheckOutTweet=False
+        ,maxAmountOfConsecutiveQuestionMarks=-1
+        ,maxAmountOfConsecutivePeriods=-1
         ):
 
         self.text = text
@@ -62,7 +64,7 @@ class Tweet:
         self.sadness = sadness
         self.anger = anger
 
-        # Extra features
+        # Miscellaneous features
         self.urlsCount = urlsCount
         self.mentionsCount = mentionsCount
         self.isRetweet = isRetweet
@@ -76,6 +78,8 @@ class Tweet:
         self.isFamousQuote = isFamousQuote
         self.isFollowMeTweet = isFollowMeTweet
         self.isCheckOutTweet = isCheckOutTweet
+        self.maxAmountOfConsecutiveQuestionMarks = maxAmountOfConsecutiveQuestionMarks
+        self.maxAmountOfConsecutivePeriods = maxAmountOfConsecutivePeriods
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):
