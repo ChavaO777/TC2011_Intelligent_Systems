@@ -70,7 +70,9 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,nonAlphabeticalCharactersCount=int(row[20])
                     ,averageWordLength=float(row[21])
                     ,isFamousQuote=int(row[22])
-                    ,isFollowMeTweet=int(row[23]))
+                    ,isFollowMeTweet=int(row[23])
+                    ,isCheckOutTweet=int(row[24])
+                    # New feature to extract
                     )
 
                 self.tweetList.append(t)
@@ -432,6 +434,15 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
 
         return self.isValidAuthor(quoteAuthor)
 
+    def tweetContainsSubString(self, tweet, substring):
+
+        return substring in tweet.lower()   
+    
     def isFollowMeTweet(self, tweet):
 
-        return "follow me" in tweet.lower()   
+        return self.tweetContainsSubString(tweet, "follow me")
+
+    def isCheckOutTweet(self, tweet):
+
+        return self.tweetContainsSubString(tweet, "check out")
+
