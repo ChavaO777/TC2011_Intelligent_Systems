@@ -38,7 +38,7 @@ class Tweet:
         ,nonAlphabeticalCharactersCount=-1
         ,averageWordLength=-1.0
         ,isFamousQuote=False
-        # ,isFollowMeTweet=False
+        ,isFollowMeTweet=False
         # ,isCheckOutTweet=False
         ):
 
@@ -74,6 +74,7 @@ class Tweet:
         self.nonAlphabeticalCharactersCount = nonAlphabeticalCharactersCount
         self.averageWordLength = averageWordLength
         self.isFamousQuote = isFamousQuote
+        self.isFollowMeTweet = isFollowMeTweet
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):

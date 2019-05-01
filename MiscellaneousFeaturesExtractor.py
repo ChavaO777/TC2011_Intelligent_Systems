@@ -59,18 +59,18 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,fear=float(row[9])
                     ,sadness=float(row[10])
                     ,anger=float(row[11])
-                    # ,self.tweetIsQuote(tweetText)
-                    ,urlsCount=self.computeUrlsCountInTweet(tweetText)
-                    ,mentionsCount=self.computeMentionsCountInTweet(tweetText)
-                    ,isRetweet=self.isRetweet(tweetText)
-                    ,wordsCount=self.computeWordsCount(tweetText)
-                    ,hashtagsCount=self.computeHashstagsCount(tweetText)
-                    ,upperCaseLettersCount=self.computeUpperCaseLettersCount(tweetText)
-                    ,lowerCaseLettersCount=self.computeLowerCaseLettersCount(tweetText)
-                    ,upperCaseWordsCount=self.computeUpperCaseWordsCount(tweetText)
-                    ,nonAlphabeticalCharactersCount=self.computeNonAlphabeticalCharactersCount(tweetText)
-                    ,averageWordLength=self.computeAverageWordLength(tweetText)
-                    ,isFamousQuote=self.isFamousQuote(tweetText)
+                    ,urlsCount=int(row[12])
+                    ,mentionsCount=int(row[13])
+                    ,isRetweet=int(row[14])
+                    ,wordsCount=int(row[15])
+                    ,hashtagsCount=int(row[16])
+                    ,upperCaseLettersCount=int(row[17])
+                    ,lowerCaseLettersCount=int(row[18])
+                    ,upperCaseWordsCount=int(row[19])
+                    ,nonAlphabeticalCharactersCount=int(row[20])
+                    ,averageWordLength=float(row[21])
+                    ,isFamousQuote=int(row[22])
+                    ,isFollowMeTweet=int(row[23]))
                     )
 
                 self.tweetList.append(t)
@@ -359,7 +359,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
 
             # foundOnNameAPI = True
             foundOnNameAPI = responseConfidence > 0.75
-            
+
         except requests.exceptions.HTTPError as e:
             print("Bad HTTP status code:", e)
         except requests.exceptions.RequestException as e:
@@ -431,4 +431,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
         quoteAuthor = self.extractQuoteAuthor(tweet)
 
         return self.isValidAuthor(quoteAuthor)
-    
+
+    def isFollowMeTweet(self, tweet):
+
+        return "follow me" in tweet.lower()   
