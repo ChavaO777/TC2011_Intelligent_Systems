@@ -47,21 +47,28 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     tweetText
                     # Class
                     ,isBot=int(row[1])
+                    ############################################
                     # MeaningCloud's sentiment analysis features
+                    ############################################
                     ,score_tag=row[2]
                     ,agreement=row[3]
                     ,subjectivity=row[4]
                     ,confidence=row[5]
                     ,irony=row[6]
+                    ###########################
                     # Indico's emotion features
+                    ###########################
                     ,joy=float(row[7])
                     ,surprise=float(row[8])
                     ,fear=float(row[9])
                     ,sadness=float(row[10])
                     ,anger=float(row[11])
+                    ########################
+                    # Miscellaneous features
+                    ########################
                     ,urlsCount=int(row[12])
                     ,mentionsCount=int(row[13])
-                    ,isRetweet=int(row[14])
+                    ,isRetweet=row[14]
                     ,wordsCount=int(row[15])
                     ,hashtagsCount=int(row[16])
                     ,upperCaseLettersCount=int(row[17])
@@ -69,9 +76,9 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,upperCaseWordsCount=int(row[19])
                     ,nonAlphabeticalCharactersCount=int(row[20])
                     ,averageWordLength=float(row[21])
-                    ,isFamousQuote=int(row[22])
-                    ,isFollowMeTweet=int(row[23])
-                    ,isCheckOutTweet=int(row[24])
+                    ,isFamousQuote=row[22]
+                    ,isFollowMeTweet=row[23]
+                    ,isCheckOutTweet=row[24]
                     # New feature to extract
                     )
 
@@ -138,7 +145,12 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
         # 2. RT @BeingSalmanKhan: http://t.co/iYEkVeRnlm
         retweetRegexPattern = "^RT.*"
         
-        return self.stringMatchesRegex(tweet, retweetRegexPattern)
+        ans = self.stringMatchesRegex(tweet, retweetRegexPattern)
+
+        if ans:
+            return True
+        
+        return False
 
     # Method that computes the amount of words of a tweet, splitting them by
     # whitespace.
@@ -314,6 +326,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
 
         # Get the last name
         lastName = nameWords[len(nameWords) - 1]
+        positiveConfidenceTreshold = 0.55
 
         # Concatenate the rest of the full name assuming it is the first name
         firstName = " ".join(nameWords[0:(len(nameWords) - 1)])
@@ -359,8 +372,8 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
             print(resp_dict)
             responseConfidence = resp.json()['matches'][0]['confidence']
 
-            # foundOnNameAPI = True
-            foundOnNameAPI = responseConfidence > 0.75
+            # Check the confidence to determine whether it was really a name
+            foundOnNameAPI = responseConfidence > positiveConfidenceTreshold
 
         except requests.exceptions.HTTPError as e:
             print("Bad HTTP status code:", e)
@@ -387,7 +400,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
     def isValidAuthor(self, quoteAuthor):
 
         # Check if it's a proverb
-        if "proverb" in quoteAuthor.lower():
+        if "proverb" in quoteAuthor.lower() or "author" in quoteAuthor.lower() or "anonymous" in quoteAuthor.lower():
             return True
 
         if len(quoteAuthor.split(" ")) > 4:

@@ -29,7 +29,7 @@ class Tweet:
         # Extra features
         ,urlsCount=-1
         ,mentionsCount=-1
-        ,isRetweet=-1
+        ,isRetweet=False
         ,wordsCount=-1
         ,hashtagsCount=-1
         ,upperCaseLettersCount=-1
