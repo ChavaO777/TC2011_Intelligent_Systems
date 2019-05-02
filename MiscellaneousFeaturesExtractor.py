@@ -7,6 +7,7 @@ from FeatureExtractor import FeatureExtractor
 from Tweet import Tweet
 import wikipedia
 import requests
+from string import ascii_lowercase
 
 # Class for extracting miscellaneous features
 class MiscellaneousFeaturesExtractor(FeatureExtractor):
@@ -79,8 +80,12 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
                     ,isFamousQuote=row[22]
                     ,isFollowMeTweet=row[23]
                     ,isCheckOutTweet=row[24]
-                    ,maxAmountOfConsecutiveQuestionMarks = int(row[25])
-                    ,maxAmountOfConsecutivePeriods = int(row[26])
+                    ,maxAmountOfConsecutiveQuestionMarks=int(row[25])
+                    ,maxAmountOfConsecutivePeriods=int(row[26])
+                    ,maxAmountOfConsecutiveExclamationMarks=int(row[27])
+                    ,maxAmountOfConsecutiveLaughs=int(row[28])
+                    ,sumOfExcessiveConsecutiveLetters=int(row[29])
+                    ,isOneWordEmotionalTweet=row[30]
                     # New feature to extract
                     )
 
@@ -109,7 +114,7 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
 
         matches = re.findall(regexPattern, text)
         return len(matches)
-
+    
     def computeUrlsCountInTweet(self, tweet):
 
         # The following regular expressions helps count the amount of URLs in a given tweet
@@ -456,27 +461,95 @@ class MiscellaneousFeaturesExtractor(FeatureExtractor):
     
     def isFollowMeTweet(self, tweet):
 
-        return self.tweetContainsSubString(tweet, "follow me")
+        return self.tweetContainsSubString(tweet, "follow")
 
     def isCheckOutTweet(self, tweet):
 
         return self.tweetContainsSubString(tweet, "check out")
 
-    def computeMaxAmountOfConsecutiveChars(self, tweet, char):
+    def computeMaxAmountOfConsecutiveChars(self, tweet, initialString, deltaString):
 
         ans = 0
-        currString = char
+        currString = initialString
 
         while self.tweetContainsSubString(tweet, currString):
             ans += 1
-            currString += char
+            currString += deltaString
 
         return ans
 
     def computeMaxAmountOfConsecutiveQuestionMarks(self, tweet):
 
-        return self.computeMaxAmountOfConsecutiveChars(tweet, '?')
+        return self.computeMaxAmountOfConsecutiveChars(tweet, '?', '?')
 
     def computeMaxAmountOfConsecutivePeriods(self, tweet):
 
-        return self.computeMaxAmountOfConsecutiveChars(tweet, '.')
+        return self.computeMaxAmountOfConsecutiveChars(tweet, '.', '.')
+
+    def maxAmountOfConsecutiveExclamationMarks(self, tweet):
+
+        return self.computeMaxAmountOfConsecutiveChars(tweet, '!', '!')
+
+    def computeMaxAmountOfConsecutiveLaughs(self, tweet):
+
+        return self.computeMaxAmountOfConsecutiveChars(tweet, 'haha', 'ha')
+
+    def wordContainsMention(self, word):
+
+        for c in word:
+
+            if c.isalpha():
+                return False
+
+            elif c == '@':
+                return True
+
+        return False
+
+    def isURL(self, word):
+
+        urlStringRegex = "https?:\/\/"
+        return self.stringMatchesRegex(text=word, regexPattern=urlStringRegex)
+
+    def isActualWord(self, word):
+
+        return (not self.wordContainsMention(word)) and (not self.isHashtag(word)) and (not self.isURL(word))
+
+    def deleteTweetMentions(self, tweet):
+
+        return " ".join(filter(lambda x: self.isActualWord(x), tweet.split()))
+    
+    def computeSumOfExcessiveConsecutiveChars(self, tweet):
+
+        count = 0
+        tweetWithoutMentions = self.deleteTweetMentions(tweet)
+
+        for c in ascii_lowercase:
+
+            maxConsecutiveCs = self.computeMaxAmountOfConsecutiveChars(tweetWithoutMentions, c + c + c, c)
+
+            if maxConsecutiveCs > 0:
+                count += maxConsecutiveCs + 2
+
+        return count
+
+    def isEmotionalWord(self, word):
+
+        word = word.lower()
+
+        with open('emotionalWordsList.txt', 'r') as searchfile:
+            for line in searchfile:
+
+                lineWords = line.split()
+
+                for lineW in lineWords:
+
+                    if lineW.lower() in word:
+                        return True
+
+        return False
+
+    def isOneWordEmotionalTweet(self, tweet):
+
+        tweetWords = tweet.split(" ")
+        return len(tweetWords) <= 2 and self.isEmotionalWord(tweetWords[len(tweetWords) - 1])

@@ -42,6 +42,10 @@ class Tweet:
         ,isCheckOutTweet=False
         ,maxAmountOfConsecutiveQuestionMarks=-1
         ,maxAmountOfConsecutivePeriods=-1
+        ,maxAmountOfConsecutiveExclamationMarks=-1
+        ,maxAmountOfConsecutiveLaughs=-1
+        ,sumOfExcessiveConsecutiveLetters=-1
+        ,isOneWordEmotionalTweet=-1
         ):
 
         self.text = text
@@ -80,6 +84,10 @@ class Tweet:
         self.isCheckOutTweet = isCheckOutTweet
         self.maxAmountOfConsecutiveQuestionMarks = maxAmountOfConsecutiveQuestionMarks
         self.maxAmountOfConsecutivePeriods = maxAmountOfConsecutivePeriods
+        self.maxAmountOfConsecutiveExclamationMarks = maxAmountOfConsecutiveExclamationMarks
+        self.maxAmountOfConsecutiveLaughs = maxAmountOfConsecutiveLaughs
+        self.sumOfExcessiveConsecutiveLetters = sumOfExcessiveConsecutiveLetters
+        self.isOneWordEmotionalTweet = isOneWordEmotionalTweet
 
     # Method that converts a Tweet to a JSON string
     def toJSON(self):
